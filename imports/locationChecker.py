@@ -1,24 +1,24 @@
-import requests
-import concurrent.futures
+from requests import get
+from concurrent.futures import ThreadPoolExecutor
 
 class LocationChecker:
     def __init__(self, ValidLocations = []) -> None:
         self.validLocations = ValidLocations
         self.ipList = []
         self.validIPs = []
-
+        self.rdap_api = "https://rdap.apnic.net/ip/"
 
     def getLocation(self, IP = "") -> str:
         ip = IP.split(":")[0]
 
-        request = requests.get(f'https://geolocation-db.com/json/{ip}&position=true') # https://ipinfo.io/1{ip}/json # https://geolocation-db.com/json/{ip}&position=true # https://ipapi.co/{ip}/json/
+        request = get(f'{self.rdap_api}{ip}')
 
         if request.status_code == 429:
-            print("sended to many requestes")
+            print("Sent too many requestes")
 
         requestData = request.json()
 
-        return requestData.get("country_name")
+        return requestData.get("country")
 
 
     def isLocation(self, IP = "", startedByMass = False) -> bool:
@@ -34,7 +34,7 @@ class LocationChecker:
 
 
     def massIsLocation(self) -> bool:
-        pool = concurrent.futures.ThreadPoolExecutor(max_workers=50)
+        pool = ThreadPoolExecutor(max_workers=50)
         
         while len(self.ipList) > 0:
             pool.submit(self.isLocation, self.ipList[-1], True)

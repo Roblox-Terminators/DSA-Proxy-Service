@@ -1,4 +1,4 @@
-import requests
+from requests import get
 
 class ProxyScraper:
 
@@ -25,7 +25,7 @@ class ProxyScraper:
         proxys = []
 
         for api in self.apis:
-            request = requests.get(api)
+            request = get(api)
             requestData = request.text.split("\n")
             for proxy in requestData:
                 if proxy in proxys:
