@@ -1,6 +1,6 @@
-import imports.proxyScraper as proxyScraper
-import imports.locationChecker as locationChecker
-import imports.proxyChecker as proxyChecker
+from imports.proxyScraper import ProxyScraper
+from imports.locationChecker import LocationChecker
+from imports.proxyChecker import ProxyChecker
 
 import threading
 
@@ -14,9 +14,9 @@ class ProxyService:
         self.validProxys = []
 
     def proxyRefresh(self) -> None:
-        locateInstance = locationChecker.LocationChecker(ValidLocations=["Germany", "Spain", "France", "Greece", "Italy", "Finland", "Ireland", "Croatia", "Sweden", "Netherlands", "Norway", "Poland"])
-        scrapeInstance = proxyScraper.ProxyScraper()
-        checkerInstance = proxyChecker.ProxyChecker()
+        locateInstance = LocationChecker(ValidLocations = ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"])
+        scrapeInstance = ProxyScraper()
+        checkerInstance = ProxyChecker()
 
         lastUpdate = 0
 
